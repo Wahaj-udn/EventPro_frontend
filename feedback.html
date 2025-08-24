@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Analytics - EventPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Navigation -->
+        <div class="w-64 bg-white shadow-sm border-r border-gray-100 h-full">
+            <!-- Logo -->
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i data-lucide="calendar" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-800">EventPro</span>
+                </div>
+            </div>
+
+            <!-- Menu Items -->
+            <nav class="mt-6">
+                <ul class="space-y-1 px-3">
+                    <li>
+                        <a href="dashboard.html" class="sidebar-link w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                            <i data-lucide="home" class="w-5 h-5"></i>
+                            <span class="font-medium">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html" class="sidebar-link w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                            <i data-lucide="calendar" class="w-5 h-5"></i>
+                            <span class="font-medium">Events</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html" class="sidebar-link w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                            <span class="font-medium">Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="feedback.html" class="sidebar-link w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                            <span class="font-medium">Feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="flex-1 p-6">
+            <h1 class="text-2xl font-semibold text-gray-800 mb-6">Post-Event Feedback Analysis</h1>
+<!-- Summary Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-600">Total Responses</p>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="total-responses">2,568</p>
+                <p class="text-green-600 text-sm mt-1 flex items-center">
+                    <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                    21% vs last event
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-600">Avg Rating</p>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="avg-rating">4.6</p>
+                <div class="flex items-center mt-1" id="star-rating">
+                    <!-- Stars will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-600">Response Rate</p>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="response-rate">89%</p>
+                <p class="text-blue-600 text-sm mt-1">2,568 of 2,890 attendees</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-600">Net Promoter Score</p>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="nps-score">+67</p>
+                <p class="text-green-600 text-sm mt-1">Excellent score</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rating Categories -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-900">Rating Breakdown</h3>
+        <p class="text-sm text-gray-500">Sales from 1-7 Dec, 2020</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="rating-breakdown">
+        <!-- Rating circles will be populated here -->
+    </div>
+</div>
+
+<!-- Sentiment Analysis & Recent Feedback -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Sentiment Analysis -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Sentiment Analysis</h3>
+        
+        <div class="space-y-4" id="sentiment-analysis">
+            <!-- Sentiment bars will be populated here -->
+        </div>
+    </div>
+
+    <!-- Recent Feedback -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Recent Feedback</h3>
+        
+        <div class="space-y-4 max-h-80 overflow-y-auto" id="recent-feedback">
+            <!-- Feedback comments will be populated here -->
+        </div>
+    </div>
+</div>
+
+<!-- Export Section -->
+<div class="mt-8 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">Export Feedback Data</h3>
+    <div class="flex space-x-4">
+        <button onclick="exportData('feedback', 'report')" class="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Download Feedback Report</span>
+        </button>
+        <button onclick="exportData('feedback', 'raw')" class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Export Raw Data</span>
+        </button>
+    </div>
+</div>
+<script>
+    // Load feedback data
+    async function loadFeedbackData() {
+        try {
+            // Mock feedback data
+            const data = {
+                total_responses: 2568,
+                avg_rating: 4.6,
+                response_rate: 89,
+                nps: 67,
+                ratings: [
+                    { category: 'Overall Satisfaction', rating: 85 },
+                    { category: 'Content Quality', rating: 92 },
+                    { category: 'Organization', rating: 78 },
+                    { category: 'Venue Quality', rating: 88 }
+                ],
+                sentiment: { 
+                    positive: 68, 
+                    neutral: 22, 
+                    negative: 10 
+                },
+                comments: [
+                    {
+                        rating: 5,
+                        comment: 'Excellent conference! Very informative.',
+                        attendee: 'Sarah Johnson',
+                        session: 'Tech Panel Discussion'
+                    },
+                    {
+                        rating: 4,
+                        comment: 'Great speakers and networking opportunities.',
+                        attendee: 'Mike Chen',
+                        session: 'Keynote Address'
+                    }
+                ]
+            };
+            
+            // Update stats
+            document.getElementById('total-responses').textContent = data.total_responses.toLocaleString();
+            document.getElementById('avg-rating').textContent = data.avg_rating;
+            document.getElementById('response-rate').textContent = data.response_rate + '%';
+            document.getElementById('nps-score').textContent = '+' + data.nps;
+            
+            // Create star rating
+            createStarRating(data.avg_rating);
+            
+            // Create rating breakdown
+            createRatingBreakdown(data.ratings);
+            
+            // Create sentiment analysis
+            createSentimentAnalysis(data.sentiment);
+            
+            // Display recent feedback
+            displayRecentFeedback(data.comments);
+            
+        } catch (error) {
+            console.error('Error loading feedback data:', error);
+        }
+    }
+    
+    function createStarRating(rating) {
+        const starContainer = document.getElementById('star-rating');
+        starContainer.innerHTML = '';
+        
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('i');
+            star.setAttribute('data-lucide', 'star');
+            star.className = `w-4 h-4 ${i <= Math.floor(rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`;
+            starContainer.appendChild(star);
+        }
+        
+        // Re-initialize Lucide icons
+        lucide.createIcons();
+    }
+    
+    function createRatingBreakdown(ratings) {
+        const container = document.getElementById('rating-breakdown');
+        container.innerHTML = '';
+        
+        const colors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+        
+        ratings.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'text-center';
+            div.innerHTML = `
+                <div class="relative w-24 h-24 mx-auto mb-3">
+                    <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
+                        <path
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke="#e5e7eb"
+                            stroke-width="2"
+                        />
+                        <path
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke="${colors[index]}"
+                            stroke-width="2"
+                            stroke-dasharray="${item.rating}, 100"
+                        />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-lg font-bold text-gray-900">${item.rating}%</span>
+                    </div>
+                </div>
+                <p class="text-sm font-medium text-gray-900">${item.category}</p>
+            `;
+            container.appendChild(div);
+        });
+    }
+    
+    function createSentimentAnalysis(sentiment) {
+        const container = document.getElementById('sentiment-analysis');
+        container.innerHTML = '';
+        
+        const sentiments = [
+            { label: 'Positive', value: sentiment.positive, color: 'bg-green-500' },
+            { label: 'Neutral', value: sentiment.neutral, color: 'bg-yellow-500' },
+            { label: 'Negative', value: sentiment.negative, color: 'bg-red-500' }
+        ];
+        
+        sentiments.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700">${item.label}</span>
+                    <span class="text-sm font-bold ${item.color.replace('bg-', 'text-').replace('-500', '-600')}">${item.value}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                    <div class="${item.color} h-2 rounded-full" style="width: ${item.value}%"></div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+    
+    function displayRecentFeedback(comments) {
+        const container = document.getElementById('recent-feedback');
+        container.innerHTML = '';
+        
+        comments.forEach(feedback => {
+            const div = document.createElement('div');
+            div.className = 'border border-gray-100 rounded-lg p-4';
+            
+            const stars = Array.from({length: 5}, (_, i) => 
+                `<i data-lucide="star" class="w-4 h-4 ${i < feedback.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}"></i>`
+            ).join('');
+            
+            div.innerHTML = `
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="font-medium text-gray-900">${feedback.attendee}</span>
+                        <span class="text-sm text-gray-500">• ${feedback.session}</span>
+                    </div>
+                    <div class="flex items-center">
+                        ${stars}
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600">${feedback.comment}</p>
+            `;
+            container.appendChild(div);
+        });
+        
+        // Re-initialize Lucide icons
+        lucide.createIcons();
+    }
+    
+    // Export data function
+    function exportData(type, format) {
+        const currentDate = new Date().toISOString().split('T')[0];
+        const fileName = `feedback_${format}_${currentDate}.csv`;
+        
+        // Create mock data for export
+        let content = 'Rating,Comment,Attendee,Session\n';
+        const mockData = [
+            { rating: 5, comment: 'Excellent conference!', attendee: 'Sarah Johnson', session: 'Tech Panel' },
+            { rating: 4, comment: 'Great speakers', attendee: 'Mike Chen', session: 'Keynote' }
+        ];
+        
+        mockData.forEach(row => {
+            content += `${row.rating},"${row.comment}","${row.attendee}","${row.session}"\n`;
+        });
+
+        // Create and trigger download
+        const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        alert(`${format.toUpperCase()} file downloaded successfully!`);
+    }
+    
+    // Load data when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadFeedbackData();
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Set active sidebar link
+        const links = document.querySelectorAll('.sidebar-link');
+        links.forEach(link => {
+            if (link.getAttribute('href') === 'feedback.html') {
+                link.classList.add('sidebar-active');
+            }
+        });
+    });
+</script>
+</body>
+</html>
